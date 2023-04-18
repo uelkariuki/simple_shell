@@ -6,9 +6,9 @@
 
 /**
  */
-struct pid_t my_pid{
-	unsigned int i = getpid();
-}
+struct pid_t{
+	unsigned int my_pid;
+};
 /**
  * function prototype
  */
