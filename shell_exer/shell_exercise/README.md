@@ -5,4 +5,6 @@
 ---------------------
 | Project | Description |
 | ------- | ----------- |
-| Prompt shell | prints out a prompt for the user to enter |
+| `my_pid.c` | prints out the child and the parent process id |
+| `folk_vp.c` | creates a new processes |
+| `wait_cp.c` | shows the wait process between parent and child|
