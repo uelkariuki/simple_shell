@@ -12,5 +12,6 @@ struct pid_t{
 /**
  * function prototype
  */
+void path_file();
 char *strtok(char *str, const char *delim);
 #endif
