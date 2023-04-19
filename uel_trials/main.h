@@ -8,5 +8,14 @@
 #include <string.h>
 #include <sys/wait.h>
 
+char *_getenv(const char *name);
+int _unsetenv(const char *name);
+
+typedef struct node {
+	char *dir;
+	struct node *next;
+} node_t;
+
+node_t *path_list_func(void);
 
 #endif 
