@@ -2,11 +2,11 @@
 
 /**
  * 
- *exec fucntion - execute a program
+ *exec -fucntion to execute a program
  * 
  */
 
-int main (void)
+int exec(int ac, char *argv[])
 {
 	int execute;
 	pid_t pid;
@@ -19,7 +19,7 @@ int main (void)
 	 * in any way
 	 */
 
-	char *argv[] = {"/bin/ls", ".", NULL};
+	char *av[] = {"/bin/ls", ".", NULL};
 
 	pid = fork();
 
@@ -30,7 +30,7 @@ int main (void)
 	}
 	if (pid == 0) /* child process success*/
 	{
-		execute = execve(argv[0], argv, NULL);
+		execute = execve(argv[0], av, NULL);
 
 		if (execute == -1)
 		{
