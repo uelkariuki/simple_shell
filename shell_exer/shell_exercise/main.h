@@ -14,4 +14,5 @@ struct pid_t{
  */
 void path_file();
 char *strtok(char *str, const char *delim);
+int _setenv(const char *name, const char *value, int overwrite);
 #endif
