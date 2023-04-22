@@ -5,15 +5,18 @@
  *
  * Return: Always 0.
  */
-int main(int ac, char **av, char **env)
+int env_main_func(int ac, char **av, char **env)
 {
-    unsigned int i;
+	unsigned int i;
+	(void) ac;
+	(void) av;
 
-    i = 0;
-    while (env[i] != NULL)
-    {
-        printf("%s\n", env[i]);
-        i++;
-    }
-    return (0);
+	i = 0;
+
+	while (env[i] != NULL)
+	{
+		printf("%s\n", env[i]);
+		i++;
+	}
+	return (0);
 }

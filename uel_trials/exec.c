@@ -10,6 +10,9 @@ int exec(int ac, char *argv[])
 {
 	int execute;
 	pid_t pid;
+	char *av[] = {"/bin/ls", ".", NULL};
+
+	(void) ac;
 
 	/* first argument - path of program to be executed
 	 * second argument - string to represent the arguments
@@ -18,8 +21,6 @@ int exec(int ac, char *argv[])
 	 * third argument- NULL as we dont need to modify the environment
 	 * in any way
 	 */
-
-	char *av[] = {"/bin/ls", ".", NULL};
 
 	pid = fork();
 
