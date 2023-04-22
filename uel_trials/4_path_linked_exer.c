@@ -5,6 +5,9 @@ node_t *path_list_func(void)
 	size_t path_len;
 	char *path_copy;
 	char *directory;
+	node_t *new_node;
+	node_t *head;
+
 	/* get the PATH environmemt variable*/
 	char *path_env = getenv("PATH");
 	if (path_env == NULL)
@@ -22,14 +25,14 @@ node_t *path_list_func(void)
 	strcpy(path_copy, path_env);
 
 	/* initialize head of the linked list*/
-	node_t *head = NULL;
+	head = NULL;
 
 	/* parsing the PATH string into individual directories*/
 	directory = strtok(path_copy, ":");
 	while(directory != NULL)
 	{
 		/* allocate a new node for this directory*/
-		node_t *new_node = malloc(sizeof(node_t));
+		new_node = malloc(sizeof(node_t));
 		if (new_node == NULL)
 		{
 			return (NULL);

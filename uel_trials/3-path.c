@@ -32,5 +32,6 @@ int path_func_3()
 			dir = strtok(NULL, delim);
 		}
 	}
+	return (0);
 
 }

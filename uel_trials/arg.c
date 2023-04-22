@@ -4,10 +4,10 @@ int arg_func(int ac, char **av)
 {
 	char *buffer;
 	size_t buffer_size = 32;
-
+	size_t command;
 
 	(void)ac;
-
+	(void)av;
 
 	buffer = (char *) malloc(buffer_size * sizeof(char));
 
@@ -22,10 +22,10 @@ int arg_func(int ac, char **av)
 	while (1)
 	{
 		printf("/$: Enter command: ");
-		size_t command = getline(&buffer, &buffer_size, stdin);
+		command = getline(&buffer, &buffer_size, stdin);
 
 		printf("%s", buffer);
 	}
 
-	return(0);
+	return(command);
 }
