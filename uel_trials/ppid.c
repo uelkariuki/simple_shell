@@ -6,7 +6,7 @@
  *Return: always (0) successful
  */
 
-int main (void)
+int ppid(void)
 {
 	pid_t my_ppid;
 

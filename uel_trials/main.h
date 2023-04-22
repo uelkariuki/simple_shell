@@ -10,6 +10,7 @@
 
 char *_getenv(const char *name);
 int _unsetenv(const char *name);
+int _setenv(const char *name, const char *value, int overwrite);
 
 typedef struct node {
 	char *dir;
@@ -17,5 +18,13 @@ typedef struct node {
 } node_t;
 
 node_t *path_list_func(void);
+
+/*alias our_aliases[] = {
+	{"ls", "ls - color=auto"},
+	{"ll", "ls -aLF"};
+	{"la", "ls -A"};
+	{NULL,NULL},
+} our_aliases;*/
+
 
 #endif 

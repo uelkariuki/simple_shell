@@ -5,7 +5,7 @@
  *
  * Return: Always 0.
  */
-int main(int ac, char **av, char **env)
+int env_main_func(int ac, char **av, char **env)
 {
     unsigned int i;
 

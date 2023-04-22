@@ -8,12 +8,9 @@
  */
 int main(int ac, char **argv)
 {
-	//int i;
-	//(void)ac;
 	char *buffer = NULL, *token;
-	size_t bufsize = 0;
+	size_t bufsize = 0, command;
 	const char *delim = " ";
-
 
 	while (1)
 	{
@@ -30,11 +27,6 @@ int main(int ac, char **argv)
 		/*int count = strlen(buffer);*/
 		/*replacing newline character with null character*/
 		buffer[strcspn(buffer, "\n")] = '\0';
-			/*if (strcmp(buffer, "exit") == 0)
-			{
-				printf("Exiting program...\n");
-				break;
-			}*/
 		token = strtok(buffer, delim);
 		char *av[10] = { NULL };
 		int arggc = 0;
