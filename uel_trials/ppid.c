@@ -1,12 +1,12 @@
 #include "main.h"
 
 /**
- *main - PPID
+ *PPID function
  *
  *Return: always (0) successful
  */
 
-int main(void)
+int ppid(void)
 {
 	pid_t my_ppid;
 	my_ppid = getppid();
