@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <string.h>
-#include <sys/types.h>
+#include "main.h"
 
 /**
  * path_file - prints out the path of the current dir
@@ -12,7 +7,7 @@
 int path_func_3()
 {
 	char *buffer, *dir;
-	const char *delim = " : ";
+	const char *delimiter = " : ";
 
 	/*path dec*/
 	buffer = getenv("PATH");
@@ -25,11 +20,11 @@ int path_func_3()
 
 	else
 	{
-		dir = strtok(buffer, delim);
+		dir = _strtok(buffer, delimiter);
 		while (dir != NULL)
 		{
 			printf("%s\n", dir);
-			dir = strtok(NULL, delim);
+			dir = _strtok(NULL, delimiter);
 		}
 	}
 	return (0);

@@ -39,7 +39,7 @@ int exec(int ac, char *argv[])
 		}
 
 	}
-	/* refer to manual part of overwriting upon  process beig executed*/
+	/* refer to manual part of overwriting upon  process being executed*/
 	else /* parent process taking over after child exits*/
 	{
 		wait(NULL);

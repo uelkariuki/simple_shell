@@ -1,4 +1,5 @@
 #ifndef MAIN_H
+
 #define MAIN_H
 
 #include <sys/types.h>
@@ -14,7 +15,10 @@ int _unsetenv(const char *name);
 int _setenv(const char *name, const char *value, int overwrite);
 int pid_func(void);
 int ppid(void);
-int exit_func();
+char *_strtok(char *string, const char *delimiter);
+void modify_env(char *buffer);
+char *trim(char *str);
+
 
 typedef struct node {
 	char *dir;

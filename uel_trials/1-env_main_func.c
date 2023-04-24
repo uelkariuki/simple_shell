@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <string.h>
-#include <sys/types.h>
+#include "main.h"
 
 /*
  * main - finds the path of of the filename
@@ -29,9 +24,15 @@ int main()
 			printf("Goodbye\n");
 			break; /*exit the loop*/
 		}
-
 		buffer[strcspn(buffer, "\n")] = '\0';
-		system(buffer);
+		if (strncmp(buffer, "setenv", 6) == 0 || strncmp(buffer, "unsetenv", 8) == 0) 
+		{
+			modify_env(buffer);
+		} 
+		else 
+		{
+			system(buffer);
+		}
 	}
 	return (0);
 }
