@@ -8,7 +8,7 @@ int main()
 {
 	char *buffer = NULL;
 	size_t buffer_size = 0;
-	char *commands[10], *token = NULL, *saveptr = NULL, *command;
+	char *commands[10], *token = NULL, *command;
 	int num_commands;
 	int a;
 
@@ -38,11 +38,11 @@ int main()
 
 		}
 		/* split line into commands*/
-		token = strtok_r(buffer, ";", &saveptr);
+		token = custom_strtok(buffer, ";");
 		while (token != NULL && num_commands < 10)
 		{
 			commands[num_commands++] = token;
-			token = strtok_r(NULL, ";", &saveptr);
+			token = custom_strtok(NULL, ";");
 		}
 		for (a = 0; a < num_commands; a++) /*execute each command*/
 		{

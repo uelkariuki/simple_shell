@@ -16,7 +16,7 @@ int _unsetenv(const char *name);
 int _setenv(const char *name, const char *value, int overwrite);
 int pid_func(void);
 int ppid(void);
-char *_strtok(char *string, const char *delimiter);
+char *custom_strtok(char *string, const char *delimiter);
 void modify_env(char *buffer);
 char *trim(char *str);
 char *handle_comments(char *command);
