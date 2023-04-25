@@ -28,7 +28,7 @@ node_t *path_list_func(void)
 	head = NULL;
 
 	/* parsing the PATH string into individual directories*/
-	directory = strtok(path_copy, ":");
+	directory = _strtok(path_copy, ":");
 	while(directory != NULL)
 	{
 		/* allocate a new node for this directory*/
@@ -52,7 +52,7 @@ node_t *path_list_func(void)
 
 		/*get the next directory in the PATH string*/
 
-		directory = strtok(NULL, ":");
+		directory = _strtok(NULL, ":");
 	}
 
 	/*free PATH buffer*/
