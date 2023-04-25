@@ -4,9 +4,13 @@ int main()
 {
     char *line = NULL;
     size_t line_size = 0;
-    char *commands[10]; // maximum of 10 commands
+    char *commands[10]; /*maximum of 10 commands*/
     int num_commands;
     int i;
+    char *token;
+    char *saveptr;
+    char *command;
+
 
     while (1)
     {
@@ -27,8 +31,8 @@ int main()
         }
 
         // split line into commands
-        char *token = NULL;
-        char *saveptr = NULL;
+        token = NULL;
+        saveptr = NULL;
         token = strtok_r(line, ";", &saveptr);
         while (token != NULL && num_commands < 10)
         {
@@ -40,7 +44,7 @@ int main()
         for (i = 0; i < num_commands; i++)
         {
             // remove leading and trailing whitespace
-            char *command = trim(commands[i]);
+            command = trim(commands[i]);
 
             // execute command
             system(command);

@@ -1,20 +1,25 @@
 #include "main.h"
 
 /*
- * main - finds the path of of the filename
+ * main - main function
  */
 
 int main()
 {
-	char buffer[100];
+	char *buffer = NULL;
+	size_t buffer_size = 0;
+	char *commands[10], *token = NULL, *saveptr = NULL, *command;
+	int num_commands;
+	int a;
 
 	/*simpler code*/
 	while (1)
 	{
+		num_commands = 0;
 
 		printf("Enter command\n:) ");
 
-		if (fgets(buffer, sizeof(buffer), stdin) == NULL)
+		if (getline(&buffer, &buffer_size, stdin) == -1)
 		{
 			break;
 		}
@@ -24,15 +29,19 @@ int main()
 			printf("Goodbye\n");
 			break; /*exit the loop*/
 		}
-		buffer[strcspn(buffer, "\n")] = '\0';
-		if (strncmp(buffer, "setenv", 6) == 0 || strncmp(buffer, "unsetenv", 8) == 0) 
+		/* split line into commands*/
+		token = strtok_r(buffer, ";", &saveptr);
+		while (token != NULL && num_commands < 10)
 		{
-			modify_env(buffer);
-		} 
-		else 
+			commands[num_commands++] = token;
+			token = strtok_r(NULL, ";", &saveptr);
+		}
+		for (a = 0; a < num_commands; a++) /*execute each command*/
 		{
-			system(buffer);
+			command = trim(commands[a]);
+			system(command);
 		}
 	}
+	free(buffer);
 	return (0);
 }
