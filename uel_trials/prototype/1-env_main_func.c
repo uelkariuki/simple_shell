@@ -4,18 +4,18 @@
  * main - main function
  */
 
-int main()
+char *command()
 {
 	char *buffer = NULL;
 	size_t buffer_size = 0;
-	char *commands[10], *token = NULL, *command;
-	int num_commands;
-	int a;
+	/*char *commands[10], *token = NULL, *saveptr = NULL, *command;*/
+	/*int num_commands;*/
+	/*int a;*/
 
 	/*simpler code*/
 	while (1)
 	{
-		num_commands = 0;
+		/*num_commands = 0;*/
 
 		printf("Enter command\n:) ");
 
@@ -29,27 +29,20 @@ int main()
 			printf("Goodbye\n");
 			break; /*exit the loop*/
 		}
-		buffer = handle_comments(buffer);
-		{
-			if (buffer == NULL)
-			{
-				continue;
-			}
-
-		}
-		/* split line into commands*/
-		token = custom_strtok(buffer, ";");
+		*strtok_r_func();
+		/* split line into commands
+		token = strtok_r(buffer, ";", &saveptr);
 		while (token != NULL && num_commands < 10)
 		{
 			commands[num_commands++] = token;
-			token = custom_strtok(NULL, ";");
+			token = strtok_r(NULL, ";", &saveptr);
 		}
-		for (a = 0; a < num_commands; a++) /*execute each command*/
+		for (a = 0; a < num_commands; a++)   execute each command
 		{
 			command = trim(commands[a]);
 			system(command);
-		}
+		}*/
 	}
 	free(buffer);
-	return (0);
+	return (buffer);
 }
