@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "main_adv.h"
+#include "main.h"
 
 int main() {
     char *line;
