@@ -4,12 +4,13 @@
 #include <sys/wait.h>
 #include <string.h>
 #include <sys/types.h>
+#include "main.h"
 
 /**
  * path_file - prints out the path of the current dir
  */
 
-int main()
+void file_path(char *command)
 {
 	char *buffer, *dir;
 	const char *delim = " : ";
@@ -32,5 +33,5 @@ int main()
 			dir = strtok(NULL, delim);
 		}
 	}
-
+	return (0);
 }

@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "main_adv.h"
+#include "main.h"
 
 #define BUF_SIZE 1024
+
+/**
+ * without_getline - accepts a str from input stream as input
+ */
 
 char *without_getline(void)
 {
