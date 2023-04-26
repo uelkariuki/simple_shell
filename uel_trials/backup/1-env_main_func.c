@@ -47,7 +47,7 @@ int main()
 		for (a = 0; a < num_commands; a++) /*execute each command*/
 		{
 			command = trim(commands[a]);
-			system(command);
+			execute_command(command);
 		}
 	}
 	free(buffer);
