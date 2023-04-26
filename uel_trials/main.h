@@ -7,8 +7,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
 #include <ctype.h>
+#include <limits.h>
 
 
 char *_getenv(const char *name);
@@ -20,6 +22,15 @@ char *custom_strtok(char *string, const char *delimiter);
 void modify_env(char *buffer);
 char *trim(char *str);
 char *handle_comments(char *command);
+void execute_command(const char *command);
+char *adding_path(char **args);
+
+
+int main(int ac __attribute__((unused)), char **av __attribute__((unused)));
+int commands_reading(char **command);
+char **command_tokens(char *command);
+void free_the_tokens(char **tokens);
+void exec(char **argv);
 
 
 typedef struct node {
