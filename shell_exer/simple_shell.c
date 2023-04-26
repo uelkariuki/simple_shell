@@ -56,6 +56,7 @@ int main(int argc, char **argv)
 			if (WIFEXITED(status) && WEXITSTATUS(status) == EXIT_SUCCESS)
 			{
 				executed_execve = 1;
+				exit(EXIT_FAILURE);
 			}
 		}
 		if (!executed_execve)

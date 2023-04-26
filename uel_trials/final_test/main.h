@@ -24,6 +24,7 @@ char *trim(char *str);
 char *handle_comments(char *command);
 void execute_command(const char *command);
 char *adding_path(char **args);
+char **tokenize(char *line, const char *delimiter, int *num_tokens);
 
 
 int main(int ac __attribute__((unused)), char **av __attribute__((unused)));
@@ -31,6 +32,12 @@ int commands_reading(char **command);
 char **command_tokens(char *command);
 void free_the_tokens(char **tokens);
 void exec(char **argv);
+char *path_func(const char *command);
+char *join(char **array, const char *delimiter);
+char **split_func(const char *str, const char *delim);
+void env_func();
+
+
 
 
 typedef struct node {

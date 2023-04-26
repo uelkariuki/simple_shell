@@ -7,7 +7,7 @@
 
 extern  char **environ;
 
-int main (void)
+int glob_environ(void)
 {
 	int e = 0;
 
