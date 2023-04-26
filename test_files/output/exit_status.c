@@ -1,9 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "main.h"
 /**
  * exit_status - envokes exit when user inputs error
+ * @prompt: string pointer
  */
 
 void exit_status(char *prompt)

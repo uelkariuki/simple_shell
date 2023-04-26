@@ -25,14 +25,18 @@ int main(int argc, char **argv)
 	{
 		printf("$ ");
 		prompt = getline(&buffer, &bufsize, stdin);
+
 		if (prompt == EOF)
 		{
-			perror("Error: end of file");
+			printf("end of file\n");
 			free(buffer);
 			exit(EXIT_FAILURE);
 		}
+
 		buffer[strcspn(buffer, "\n")] = '\0';
+
 		exit_status(buffer);
+
 		pid = fork();
 		if (pid == -1)
 		{
@@ -56,7 +60,6 @@ int main(int argc, char **argv)
 			if (WIFEXITED(status) && WEXITSTATUS(status) == EXIT_SUCCESS)
 			{
 				executed_execve = 1;
-				exit(EXIT_FAILURE);
 			}
 		}
 		if (!executed_execve)
