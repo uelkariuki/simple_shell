@@ -37,11 +37,13 @@ int main(int argc, char **argv)
 		
 		if (strcmp(buffer, "exit 98") == 0)
 		{
+			free(buffer);
 			exit(98);
 		}
 		else if (strcmp(buffer, "exit") == 0)
 		{
-			exit(EXIT_SUCCESS);
+			free(buffer);
+			exit(0);
 		}	
 
 		pid = fork();
