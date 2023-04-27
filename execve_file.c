@@ -25,7 +25,7 @@ void exec(char **argv)
 		true_cmd = path_func(cmd);
 		if (true_cmd == NULL)
 		{
-			perror(cmd);
+			fprintf(stderr, "%s: command not found\n", argv[0]);
 		}
 		pid = fork();
 		if (pid == -1) /* child process failure*/
@@ -35,7 +35,7 @@ void exec(char **argv)
 		}
 		else if (pid == 0)
 		{
-			if (execve(true_cmd, argv, NULL) == -1)
+			if (execve(true_cmd, argv, environ) == -1)
 			{
 				exit(EXIT_FAILURE);
 			}
