@@ -32,7 +32,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		}
 		command_tokens = tokenize_command(command);
 		i_mode = isatty(STDIN_FILENO);
-		if (!i_mode && command_tokens[0] != NULL && 
+		if (!i_mode && command_tokens[0] != NULL &&
 				access(command_tokens[0], F_OK) == -1)
 		{
 			fprintf(stderr, "%s: %d: %s: not found\n",
