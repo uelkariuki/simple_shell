@@ -13,15 +13,16 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 	char *command = NULL;
 	char **command_tokens;
 	size_t buffer_size = 0;
+	int i_mode /* interactive mode*/, line_num = 1;
 
-	while (1)
+	while (i_mode)
 	{
-		/*write(STDOUT_FILENO, ":) ", 3);*/
-		/*printf(":) ");*/
+		if (i_mode == 1)
+		{
+			write(STDOUT_FILENO, ":) ", 3);
+		}
 		if (getline(&command, &buffer_size, stdin) == -1)
 		{
-			/*printf("shell exit");*/
-			/*free(command);*/
 			exit(EXIT_SUCCESS);
 		}
 		if (strcmp(command, "exit\n") == 0)
@@ -29,9 +30,19 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 			free(command);
 			break;
 		}
-
 		command_tokens = tokenize_command(command);
-		exec(command_tokens);
+		i_mode = isatty(STDIN_FILENO);
+		if (!i_mode && command_tokens[0] != NULL && 
+				access(command_tokens[0], F_OK) == -1)
+		{
+			fprintf(stderr, "%s: %d: %s: not found\n",
+					av[0], line_num, command_tokens[0]);
+
+		}
+		else
+		{
+			exec(command_tokens);
+		}
 		free(command_tokens);
 	}
 	return (0);
