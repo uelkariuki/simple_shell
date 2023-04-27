@@ -7,11 +7,12 @@
  */
 int main(int argc, char **argv)
 {
-	char *buffer, *token, *delim = " ";
-	size_t bufsize = 0;
-	int status;
+	char *buffer, *av[100];
+	size_t bufsize = 100;
+	int status, executed_execve = 0;
 	ssize_t prompt;
 	pid_t pid;
+	(void)argc, (void)argv;
 
 	buffer = malloc(sizeof(char) * bufsize);
 
@@ -34,20 +35,8 @@ int main(int argc, char **argv)
 
 		buffer[strcspn(buffer, "\n")] = '\0';
 
-		/*exit_status(buffer);*/
-		if (strlen(buffer) == 0)
-		{
-			continue;
-		}
+		exit_status(buffer);
 
-		argc = 0;
-		token = strtok(buffer, delim);
-		while (token != NULL && argc < 99)
-		{
-			argv[argc++] = token;
-			token = strtok(NULL, delim);
-		}
-		argv[argc] = NULL;
 		pid = fork();
 		if (pid == -1)
 		{
@@ -56,14 +45,11 @@ int main(int argc, char **argv)
 		}
 		else if (pid == 0)
 		{
-			if( execve(argv[0], argv, NULL) == -1)
+			av[0] = buffer;
+			av[1] = NULL;
+			if( execve(av[0], av, NULL) == 1)
+		
 			{
-				if (errno == ENOENT)
-				{
-					printf("%s: No such file or directory\n", argv[0]);
-					free(buffer);
-					exit(EXIT_FAILURE);
-				}
 				perror("error: executing execve");
 				free(buffer);
 				exit(EXIT_FAILURE);
@@ -72,6 +58,18 @@ int main(int argc, char **argv)
 		else
 		{
 			wait(&status);
+			if (WIFEXITED(status) && WEXITSTATUS(status) == EXIT_SUCCESS)
+			{
+				executed_execve = 1;
+			}
+		}
+		if (!executed_execve)
+		{
+			system(buffer);
+		}
+		else
+		{
+			executed_execve = 0;
 		}
 	}
 	free(buffer);
