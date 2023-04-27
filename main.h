@@ -11,6 +11,7 @@
 #include <sys/wait.h>
 #include <ctype.h>
 #include <limits.h>
+#include <errno.h>
 
 #define COMMAND_MAX_LENGTH 1024
 
@@ -31,6 +32,10 @@ char *path_builder(const char *dir, const char *command);
 void exec(char **argv);
 char **tokenize_command(char *command);
 void env_func(void);
+<<<<<<< HEAD
 char **strtok_cmd(char *command);
+=======
+int isatty(int fd);
+>>>>>>> uel_branch
 
 #endif
