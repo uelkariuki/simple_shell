@@ -36,24 +36,9 @@ void exec(char **argv);
 char *path_func(const char *command);
 char *join(char **array, const char *delimiter);
 char **split_func(const char *str, const char *delim);
-void env_func();
+void env_func(void);
+
+char *without_getline(void);
 
 
-
-
-typedef struct node {
-	char *dir;
-	struct node *next;
-} node_t;
-
-node_t *path_list_func(void);
-
-/*alias our_aliases[] = {
-	{"ls", "ls - color=auto"},
-	{"ll", "ls -aLF"};
-	{"la", "ls -A"};
-	{NULL,NULL},
-} our_aliases;*/
-
-
-#endif 
+#endif

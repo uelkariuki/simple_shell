@@ -19,6 +19,7 @@ int main(int ac __attribute__((unused)), char **argv __attribute__((unused)))
 		if (commands_reading(&command) == -1)
 		{
 			perror("exiting now");
+			free(command);
 			return (-1);
 		}
 		if (command == NULL)
@@ -82,7 +83,7 @@ char **command_tokens(char *command)
 	tokens = malloc(sizeof(char *) * (allocated_size + 1));
 	if (tokens == NULL)
 	{
-		exit(-1);
+		return(NULL);
 	}
 	command_copy = strdup(command);
 	token = custom_strtok(command_copy, delimiter);
@@ -91,11 +92,11 @@ char **command_tokens(char *command)
 		token_amount++;
 		if (token_amount >= allocated_size)
 		{
-			allocated_size *= 2; /*double the size*/
+			allocated_size *= 2;
 			tokens = realloc(tokens, sizeof(char *) * allocated_size + 1);
 			if (tokens == NULL)
 			{
-				exit(-1);
+				free(command_copy);
 			}
 		}
 		tokens[a] = malloc(sizeof(char *) * (strlen(token) + 1));
@@ -106,7 +107,7 @@ char **command_tokens(char *command)
 	tokens[a] = NULL;
 	argv = malloc(sizeof(char *) * (token_amount + 1));
 	if (argv == NULL)
-		exit(-1);
+		free(command_copy);
 	for (a = 0; tokens[a] != NULL; a++)
 		argv[a] = tokens[a];
 	argv[token_amount] = NULL;
