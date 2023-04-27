@@ -18,7 +18,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 	{
 		/*write(STDOUT_FILENO, ":) ", 3);*/
 		/*printf(":) ");*/
-		if (getline(&command, &buffer_size, stdin) == -1)
+		if (getline(&command, &buffer_size, stdin) == 1)
 		{
 			/*printf("shell exit");*/
 			/*free(command);*/
