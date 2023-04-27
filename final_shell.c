@@ -29,6 +29,10 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 			free(command);
 			exit(0);
 		}
+		if (strcmp(command, "exit 98\n") == 0)
+		{
+			exit(98);
+		}
 
 		command_tokens = tokenize_command(command);
 		exec(command_tokens);
