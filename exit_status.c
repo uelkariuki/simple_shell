@@ -13,7 +13,6 @@ void exit_status(char *prompt)
 	}
 	else if (strcmp(prompt, "exit") == 0)
 	{
-		printf("exiting program");
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 }
