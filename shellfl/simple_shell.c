@@ -34,17 +34,8 @@ int main(int argc, char **argv)
 		}
 
 		buffer[strcspn(buffer, "\n")] = '\0';
-		
-		if (strcmp(buffer, "exit 98") == 0)
-		{
-			free(buffer);
-			exit(98);
-		}
-		else if (strcmp(buffer, "exit") == 0)
-		{
-			free(buffer);
-			exit(EXIT_SUCCESS);
-		}	
+
+		/*exit_status(buffer);*/
 
 		pid = fork();
 		if (pid == -1)
