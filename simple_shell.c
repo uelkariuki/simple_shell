@@ -43,7 +43,7 @@ int main(int argc, char **argv)
 		else if (strcmp(buffer, "exit") == 0)
 		{
 			free(buffer);
-			exit(0);
+			exit(EXIT_SUCCESS);
 		}	
 
 		pid = fork();
