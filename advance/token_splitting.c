@@ -1,17 +1,16 @@
 #include "main.h"
 
 /**
- * split_func- a helper function that splits a string into tokens
- * @str: the string to be split
- * @delim: the delimiter
- * Return: a tokenized string
+ * split_func- a helper function that splits a strijg into tokens
+ *
  */
 
 char **split_func(const char *str, const char *delim)
 {
 	size_t counter_tokens = 0;
 	char **the_tokens = NULL;
-	char *str_duplicate, *token;
+	char *str_duplicate, *token, *duplicate_token;
+	char **tokens;
 
 	/* we make a copy as custom_strtok modifies the string*/
 	str_duplicate = strdup(str);
@@ -30,19 +29,21 @@ char **split_func(const char *str, const char *delim)
 
 	/* this second time tokens copied to array*/
 	counter_tokens = 0;
+	str_duplicate = strdup(str);
 	token = custom_strtok(str_duplicate, delim);
 	while (token != NULL)
 	{
-		the_tokens[counter_tokens] = strdup(token);
-		if (the_tokens[counter_tokens] == NULL)
+		duplicate_token = strdup(token);
+		if (duplicate_token == NULL)
 		{
 			exit(EXIT_FAILURE);
 		}
+		the_tokens[counter_tokens] = duplicate_token;
 		counter_tokens++;
 		token = custom_strtok(NULL, delim);
 	}
 	/* for the NULL terminator*/
-	the_tokens[counter_tokens] = NULL;
+	the_tokens[counter_tokens] = NULL; 
 
 	free(str_duplicate);
 	return (the_tokens);
