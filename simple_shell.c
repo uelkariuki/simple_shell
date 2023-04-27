@@ -35,7 +35,7 @@ int main(int argc, char **argv)
 
 		buffer[strcspn(buffer, "\n")] = '\0';
 
-		/*exit_status(buffer);*/
+		exit_status(buffer);
 
 		pid = fork();
 		if (pid == -1)
