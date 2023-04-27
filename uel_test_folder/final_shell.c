@@ -13,16 +13,20 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 	char *command = NULL;
 	char **command_tokens;
 	size_t buffer_size = 0;
+	int i_mode = 1;
 
 	while (1)
 	{
-		/*write(STDOUT_FILENO, ":) ", 3);*/
-		/*printf(":) ");*/
-		if (getline(&command, &buffer_size, stdin) == 1)
+		if (i_mode)
+		{
+			write(STDOUT_FILENO, "$ ", 2);
+			
+		}
+		if (getline(&command, &buffer_size, stdin) == -1)
 		{
 			/*printf("shell exit");*/
 			/*free(command);*/
-			exit(EXIT_SUCCESS);
+			exit(EXIT_FAILURE);
 		}
 		if (strcmp(command, "exit\n") == 0)
 		{
@@ -31,11 +35,18 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		}
 
 		command_tokens = tokenize_command(command);
-		exec(command_tokens);
-		free(command_tokens);
+		i_mode = isatty(STDOUT_FILENO);
+		if (!i_mode && command_tokens[0] != NULL && access(command_tokens[0], F_OK) == -1)
+		{
+			fprintf(stderr, "%s: %s: command not found\n", av[0], command_tokens[0]);
+		}
+		else
+		{
+			exec(command_tokens);
+			free(command_tokens);
+		}
 	}
 	return (0);
-
 
 }
 
