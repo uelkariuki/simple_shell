@@ -21,10 +21,12 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		if (getline(&command, &buffer_size, stdin) == -1)
 		{
 			/*printf("shell exit");*/
+			free(command);
 			exit(EXIT_SUCCESS);
 		}
 		if (strcmp(command, "exit\n") == 0)
 		{
+			free(command);
 			exit(0);
 		}
 
