@@ -11,6 +11,7 @@
 #include <sys/wait.h>
 #include <ctype.h>
 #include <limits.h>
+#include <errno.h>
 
 extern char **environ;
 
@@ -37,10 +38,10 @@ char *path_func(const char *command);
 char *join(char **array, const char *delimiter);
 char **split_func(const char *str, const char *delim);
 void env_func();
+void exit_status(char *prompt);
 
-
-
-
+/*trials*/
+char *sspath(char *command);
 typedef struct node {
 	char *dir;
 	struct node *next;
