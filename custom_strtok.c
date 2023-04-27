@@ -12,10 +12,6 @@ char *custom_strtok(char *string, const char *delimiter)
 	/* pointing to the final token found in the string*/
 	static char *the_final_token;
 
-	if (string != NULL)
-	{
-		the_final_token = NULL;
-	}
 	/* if string is NULL, continue searching from the position*/
 	/* pointed by the final token */
 
@@ -30,8 +26,6 @@ char *custom_strtok(char *string, const char *delimiter)
 	{
 		return (NULL);
 	}
-
-
 	/* find the start of the next token*/
 	string = string + strspn(string, delimiter);
 

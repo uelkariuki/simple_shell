@@ -11,8 +11,7 @@
 #include <sys/wait.h>
 #include <ctype.h>
 #include <limits.h>
-
-#define COMMAND_MAX_LENGTH 1024
+#include <errno.h>
 
 extern char **environ;
 
@@ -23,13 +22,28 @@ int pid_func(void);
 int ppid(void);
 char *custom_strtok(char *string, const char *delimiter);
 void modify_env(char *buffer);
+char *trim(char *str);
 char *handle_comments(char *command);
+void execute_command(const char *command);
+char *adding_path(char **args);
+char **tokenize(char *line, const char *delimiter, int *num_tokens);
+
 
 int main(int ac __attribute__((unused)), char **av __attribute__((unused)));
-char *path_func(char *cmd);
-char *path_builder(const char *dir, const char *command);
+int commands_reading(char **command);
+char **command_tokens(char *command);
+void free_the_tokens(char **tokens);
 void exec(char **argv);
-char **tokenize_command(char *command);
+char *path_func(const char *command);
+char *join(char **array, const char *delimiter);
+char **split_func(const char *str, const char *delim);
 void env_func(void);
+char *without_getline(void);
+void exit_status(char *prompt);
+
+/*trials*/
+char *sspath(char *command);
+
+
 
 #endif

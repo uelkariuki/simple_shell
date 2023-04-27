@@ -43,6 +43,7 @@ char *path_func(const char *command)
 	/* check if command is absolute path and return if it exists*/
 	if (access(command, X_OK) == 0)
 	{
+		free(the_directories);
 		return (strdup(command));
 	}
 	free(the_directories);
