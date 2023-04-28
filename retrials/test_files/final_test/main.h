@@ -25,7 +25,7 @@ char *my_strncat(char *destination, char *source, int n);
 int my_atoi(char *str);
 int shell_interactive(my_shell *);*/
 /*main files*/
-int main(int argc, char **argv, char **envp);
+int main(int argc, char **argv);
 /*void execute(char *command, char **argv);*/
 void execute(char **args, int input_fd, int output_fd);
 void execute_pipe(char **cm1, char **cm2);
