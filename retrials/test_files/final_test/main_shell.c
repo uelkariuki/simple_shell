@@ -8,7 +8,7 @@
 
 #define MAX_CMD_LEN 1024
 #define MAX_ARGS 10
-int main(int argc, char **argv, char **envp)
+int main(int argc, char **argv)
 {
 	FILE *fp;
 	char *command, *args[MAX_ARGS], *env_path = getenv("PATH");
@@ -66,7 +66,9 @@ int main(int argc, char **argv, char **envp)
 
 			if(fgets(command, MAX_CMD_LEN, stdin) == NULL)
 			{
-				perror("Error: fgets");
+				perror("Exiting");
+				free(command);
+				free(path_copy);
 				exit(EXIT_FAILURE);
 			}
 
@@ -108,7 +110,7 @@ int main(int argc, char **argv, char **envp)
 			else if(strcmp(args[0], "env") == 0)
 			{
 				print_env();
-				exit(EXIT_SUCCESS);
+				continue;
 			}
 
 			else
@@ -120,10 +122,8 @@ int main(int argc, char **argv, char **envp)
 				}
 				else
 				{
-					printf("%s: command not found\nenv:%s\n", argv[0], envp[0]);
-					free(cmd_path);
-					free(command);
-					exit(EXIT_FAILURE);
+					printf("%s: command not found\n", argv[0]);
+					continue;
 				}
 			}
 			i = 0;
