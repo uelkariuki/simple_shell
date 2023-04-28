@@ -28,7 +28,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		if (getline(&command, &buffer_size, stdin) == -1)
 		{
 			free(command);
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 		if (strcmp(command, "exit\n") == 0)
 		{
