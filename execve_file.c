@@ -3,17 +3,16 @@
 /**
  * exec - function that executes a command
  * @argv: an array containing the program command line arguments
- *
+ * @program_name: the name of the program
  */
 
 
 
-void exec(char **argv)
+void exec(char **argv, char *program_name)
 {
 	char *cmd = NULL, *true_cmd = NULL;
-	int cs; /*current_state;*/
+	int line_num = 1, cs; /*current_state;*/
 	pid_t pid;
-	int line_num = 1;
 
 	if (argv)
 	{
@@ -26,8 +25,7 @@ void exec(char **argv)
 		true_cmd = path_func(cmd);
 		if (true_cmd == NULL)
 		{
-			fprintf(stderr, "%s: %d: %s: not found\n", argv[0], line_num, cmd);
-			exit(EXIT_FAILURE);
+			fprintf(stderr, "%s: %d: %s: not found\n", program_name, line_num, argv[0]);
 		}
 		pid = fork();
 		if (pid == -1) /* child process failure*/
@@ -39,9 +37,6 @@ void exec(char **argv)
 		{
 			if (execve(true_cmd, argv, environ) == -1)
 			{
-				/*argv[0] for us aint the file but the command */
-				/*thus it prints the command*/
-				printf("%s: %s\n", true_cmd, strerror(errno));
 				exit(EXIT_FAILURE);
 			}
 		}

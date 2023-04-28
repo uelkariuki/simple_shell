@@ -14,35 +14,37 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 	char **command_tokens;
 	size_t buffer_size = 0;
 	int i_mode = 1;
+	char *program_name = av[0];
 
 	while (1)
 	{
+		i_mode = isatty(STDOUT_FILENO);
 		if (i_mode)
 		{
-			write(STDOUT_FILENO, "$ ", 2);
-			
+			/*write(STDOUT_FILENO, "", 1);*/
+			printf(" ");
 		}
 		if (getline(&command, &buffer_size, stdin) == -1)
 		{
-			/*printf("shell exit");*/
-			/*free(command);*/
+			free(command);
 			exit(EXIT_FAILURE);
 		}
 		if (strcmp(command, "exit\n") == 0)
 		{
 			free(command);
-			break;
+			exit(EXIT_FAILURE);
 		}
-
 		command_tokens = tokenize_command(command);
 		i_mode = isatty(STDOUT_FILENO);
-		if (!i_mode && command_tokens[0] != NULL && access(command_tokens[0], F_OK) == -1)
+		if (!i_mode && command_tokens[0] != NULL
+				&& access(command_tokens[0], F_OK) == -1)
 		{
-			fprintf(stderr, "%s: %s: command not found\n", av[0], command_tokens[0]);
+			exec(command_tokens, program_name);
+			free(command_tokens);
 		}
-		else
+		else if (command_tokens[0] != NULL)
 		{
-			exec(command_tokens);
+			exec(command_tokens, program_name);
 			free(command_tokens);
 		}
 	}

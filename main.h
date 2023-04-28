@@ -29,7 +29,7 @@ char *handle_comments(char *command);
 int main(int ac __attribute__((unused)), char **av __attribute__((unused)));
 char *path_func(char *cmd);
 char *path_builder(const char *dir, const char *command);
-void exec(char **argv);
+void exec(char **argv, char *program_name);
 char **tokenize_command(char *command);
 void env_func(void);
 char **strtok_cmd(char *command);
