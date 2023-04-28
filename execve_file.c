@@ -26,6 +26,7 @@ void exec(char **argv, char *program_name)
 		if (true_cmd == NULL)
 		{
 			fprintf(stderr, "%s: %d: %s: not found\n", program_name, line_num, argv[0]);
+			goto cleanup;
 		}
 		pid = fork();
 		if (pid == -1) /* child process failure*/
@@ -48,6 +49,16 @@ void exec(char **argv, char *program_name)
 				exit(EXIT_FAILURE);
 			}
 		}
+	}
+cleanup:
+	cleanup_function(true_cmd);
+}
+
+void cleanup_function(char *true_cmd)
+{
+	if(true_cmd != NULL )
+	{
 		free(true_cmd);
+		true_cmd = NULL;
 	}
 }

@@ -22,7 +22,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		if (i_mode)
 		{
 			/*write(STDOUT_FILENO, "", 1);*/
-			printf(" ");
+			printf("$ ");
 		}
 		if (getline(&command, &buffer_size, stdin) == -1)
 		{

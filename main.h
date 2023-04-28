@@ -35,4 +35,7 @@ void env_func(void);
 char **strtok_cmd(char *command);
 int isatty(int fd);
 
+/*clean up*/
+void cleanup_function(char *true_cmd);
+
 #endif
