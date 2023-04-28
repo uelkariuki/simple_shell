@@ -1,49 +1,53 @@
 #ifndef MAIN_H
-
 #define MAIN_H
 
-#include <sys/types.h>
-#include <unistd.h>
+/*header libs*/
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
-#include <sys/stat.h>
 #include <sys/wait.h>
-#include <ctype.h>
-#include <limits.h>
+#include <sys/types.h>
 #include <errno.h>
+#include <limits.h>
+#include <ctype.h>
 
+/*function prototypes*/
 extern char **environ;
+/*char user_input(my_shell *);
+int free_me(void **ptr);
+char *strtok_sp(char *token, const char *delim);
+unsigned int is_delim(char s, char *delim);
+char *_strncpy(char *destination, char *source, int n);
+char *my_strchr(char *src, char l);
+char *my_strncat(char *destination, char *source, int n);
+int my_atoi(char *str);
+int shell_interactive(my_shell *);*/
+/*main files*/
+int main(int argc, char *argv[]);
+void execute(char *command, char **argv);
 
-char *_getenv(const char *name);
-int _unsetenv(const char *name);
-int _setenv(const char *name, const char *value, int overwrite);
-int pid_func(void);
-int ppid(void);
-char *custom_strtok(char *string, const char *delimiter);
-void modify_env(char *buffer);
-char *trim(char *str);
-char *handle_comments(char *command);
-void execute_command(const char *command);
-char *adding_path(char **args);
-char **tokenize(char *line, const char *delimiter, int *num_tokens);
+/*errors function*/
+/*Size division*/
+#define BUFSIZE 1024
 
+/*struct division*/
+typedef struct unix_info
+{
+	char *environ;
+	char *args;
+	char argv;
+	char *path_line;
+	char env;
+	int status;
+	int argc;
+	int *ptr;
+	int readfd;
+} my_shell;
 
-int main(int ac __attribute__((unused)), char **av __attribute__((unused)));
-int commands_reading(char **command);
-char **command_tokens(char *command);
-void free_the_tokens(char **tokens);
-void exec(char **argv);
-char *path_func(const char *command);
-char *join(char **array, const char *delimiter);
-char **split_func(const char *str, const char *delim);
-void env_func(void);
-char *without_getline(void);
-void exit_status(char *prompt);
-
-/*trials*/
-char *sspath(char *command);
-
-
-
+typedef struct built_funct
+{
+	char *type;
+	int (*func)(my_shell *);
+} simple_command;
 #endif
