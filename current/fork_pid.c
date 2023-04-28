@@ -1,6 +1,6 @@
 #include "main.h"
 
-void execute(char **args)
+void execute(char **args, char **envp)
 {
 	pid_t pid;
 	int pipepath[2], status;
@@ -36,7 +36,7 @@ void execute(char **args)
 	else
 	{
 		close(pipepath[1]);
-		pipe_rd(pipepath[0]);
+		pipe_rd(pipepath[0], envp);
 		
 		if (waitpid(pid, &status, 0) == -1)
 		{

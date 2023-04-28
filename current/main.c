@@ -9,10 +9,10 @@
  */
 int main(int argc, char **argv, char **envp)
 {
-	int status, no_args = 0, no_args1 = 0, no_args2 = 0;
-	char *args[MAXIMUM_ARG], *args2[MAXIMUM_ARG], command[BUFSIZE], *pipe_token, *token;
-	char *command1, *command2, buffer;
+	int pfd[2], has_pipe = 0, i = 0;
+	char *args[MAXIMUM_ARG], command[BUFSIZE], *pipe_token, *token;
 	pid_t pid;
+	(void)argc, (void)argv;
 
 	while (1)
 	{
@@ -21,65 +21,83 @@ int main(int argc, char **argv, char **envp)
 		fflush(stdout);
 
 		/*EOF*/
-		if (!fgets(prompt, BUFSIZE, stdin))
+		if (!fgets(command, BUFSIZE, stdin))
 		{
 			printf("\n");
 			break;
 		}
 		/*remove and replace new line*/
-		prompt[strcspn(prompt, "\n")] = 0;
-		
-		pipe_token = strtok(command, "|");
-		if (pipe_token == NULL)
+		command[strcspn(command, "\n")] = 0;
+		if (strcmp(command, "exit") == 0)
 		{
-			token = strtok(command, " ");
-			while (token != NULL && no_args < MAXIMUM_ARG - 1)
-			args[no_args++] = token;
-			token = strtok(NULL, " ");
-			
-			args[no_args] = NULL;
-			
-			/*fork sec*/
-			if (no_args > 0)
+			break;
+		}
+
+		pipe_token = strtok(command, "|");
+		if (pipe_token != NULL)
+		{
+			has_pipe = 1;
+			*pipe_token++ = '\0';
+			while (*pipe_token == ' ')
 			{
+				pipe_token++;
+			}
+
+			token = strtok(command, " ");
+			while (token != NULL && i < MAXIMUM_ARG - 1)
+			{
+				args[i++] = token;
+				token = strtok(NULL, " ");
+			}
+			args[i] = NULL;
+			
+			if (has_pipe)
+			{
+				if (pipe(pfd) == -1)
+				{
+					perror("error: piping");
+					exit(EXIT_FAILURE);
+				}
 				pid = fork();
 				if (pid == -1)
 				{
 					perror("Error: fork");
 					exit(EXIT_FAILURE);
 				}
-			}
-			else if (pid == 0)
-			{
-				execute(args, envp);
+				else if (pid == 0)
+				{
+					close(pfd[0]);
+					dup2(pfd[1], STDOUT_FILENO);
+					close(pfd[1]);
+					token = strtok(command, " ");
+					i = 0;
+					while (token != NULL && i < MAXIMUM_ARG - 1)
+					{
+						args[i++] = token;
+						token = strtok(NULL, " ");
+					}
+					args[i] = NULL;
+					execute(args, envp);
+				}
+				else
+				{
+					close(pfd[1]);
+					dup2(pfd[0], STDOUT_FILENO);
+					close(pfd[0]);
+					token = strtok(pipe_token, " ");
+					i = 0;
+					while (token != NULL && i < MAXIMUM_ARG - 1)
+					{
+						args[i++] = token;
+						token = strtok(NULL, " ");
+					}
+					args[i] = NULL;
+					pipe_rd(STDIN_FILENO, envp);
+				}
 			}
 			else
 			{
-				waitpid(pid, &status, 0);
-			}
-		}
-		else
-		{
-			command1 = strtok(pipe_token, " ");
-			token = strtok(NULL, " ");
-			while (token != NULL && no_args1 < MAXIMUM_ARG - 1)
-			{
-				args[no_args1++] = token;
-				token = strtok(NULL, " ");
-			}
-			args[no_args1] = NULL;
-
-			command2 = strtok(pipe_token, " ");
-			while (token != NULL && no_args2 < MAXIMUM_ARG - 1)
-			{
-				args[no_args2++] = token;
-				token = strtok(NULL, " ");
-			}
-			args[no_args2] = NULL;
-
-			if (no_args1 > 0 && no_args2 > 0)
-			{
-				pipe_rd(args, args2, envp);
+				execute(args, envp);
 			}
 		}
 	}

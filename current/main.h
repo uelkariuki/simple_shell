@@ -13,12 +13,9 @@
 #include <limits.h>
 
 #define COMMAND_MAX_LENGTH 1024
+/*function ptotorype*/
 
-extern char **environ;
-int main(int argc, char **argv, char **envp);
-/* trials*/
-char **strtok_cmd(char *command);
-int pipe_rd(char **command1, char **command2, char **envp);
-int execute(char **command, char **envp);
+/*struct division*/
+
 
 #endif

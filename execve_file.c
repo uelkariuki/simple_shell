@@ -39,6 +39,9 @@ void exec(char **argv)
 		{
 			if (execve(true_cmd, argv, environ) == -1)
 			{
+				/*argv[0] for us aint the file but the command */
+				/*thus it prints the command*/
+				printf("%s: %s\n", true_cmd, strerror(errno));
 				exit(EXIT_FAILURE);
 			}
 		}

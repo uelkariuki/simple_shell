@@ -1,27 +1,51 @@
 #include "main.h"
 #define BUFSIZE 1024
-void pipe_rd(int pipepath)
+#define MAXIMUM_ARG 150
+void pipe_rd(int pfd, char **envp)
 {
-	char buffer[BUFSIZE];
-	int no_bytes;
+	int pipepath[2], i = 0;
+	pid_t pid;
+	char *args = NULL, *args1[MAXIMUM_ARG], *args2[MAXIMUM_ARG], *token;
+	const char *delim = " ";
 
-	while ((no_bytes = read(pipepath, buffer, BUFSIZE)) > 0)
+	if (pipe(pipepath) == -1)
 	{
-		if (write(STDOUT_FILENO, buffer, no_bytes) == -1)
+		perror("Error: didn't pipe well");
+		exit(EXIT_FAILURE);
+	}
+
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("Error: forking");
+		exit(EXIT_FAILURE);
+	}
+	else if (pid == 0)
+	{
+		close(pipepath[0]);
+		dup2(pipepath[1], STDOUT_FILENO);
+		close(pipepath[1]);
+		token = strtok(args, delim);
+		while (token != NULL && i < MAXIMUM_ARG - 1)
 		{
-			perror("Error: couldn't write");
-			exit(EXIT_FAILURE);
+			args1[i++] = token;
+			token = strtok(NULL, delim);
 		}
+		args1[i] = NULL;
+		execute(args1, envp);
 	}
-	if (no_bytes == -1)
+	else
 	{
-		perror("Error: couldn't read");
-		exit(EXIT_FAILURE);
-	}
-
-	if (close(pipepath) == -1)
-	{
-		perror("Error: close");
-		exit(EXIT_FAILURE);
+		close(pipepath[1]);
+		dup2(pfd, STDIN_FILENO);
+		close(pfd);
+		token = strtok(args, delim);
+		while (token != NULL && i < MAXIMUM_ARG - 1)
+		{
+			args2[i++] = token;
+			token = strtok(NULL, delim);
+		}
+		args2[i] = NULL;
+		execute(args2, envp);
 	}
 }
