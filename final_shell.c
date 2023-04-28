@@ -1,5 +1,7 @@
 #include "main.h"
 
+#define COMMAND_MAX_LENGTH 1024
+
 /**
  * main - main shell program
  * @ac: number of command line arguments
@@ -26,12 +28,12 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		if (getline(&command, &buffer_size, stdin) == -1)
 		{
 			free(command);
-			exit(EXIT_FAILURE);
+			exit(1);
 		}
 		if (strcmp(command, "exit\n") == 0)
 		{
 			free(command);
-			exit(EXIT_SUCCESS);
+			exit(0);
 		}
 		command_tokens = tokenize_command(command);
 		i_mode = isatty(STDOUT_FILENO);
