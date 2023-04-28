@@ -21,20 +21,19 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		i_mode = isatty(STDOUT_FILENO);
 		if (i_mode)
 		{
-			write(STDOUT_FILENO, " ", 1);
+			/*write(STDOUT_FILENO, "", 1);*/
+			printf(" ");
 		}
 		if (getline(&command, &buffer_size, stdin) == -1)
 		{
-			/*printf("shell exit");*/
-			/*free(command);*/
+			free(command);
 			exit(EXIT_FAILURE);
 		}
 		if (strcmp(command, "exit\n") == 0)
 		{
 			free(command);
-			break;
+			exit(EXIT_FAILURE);
 		}
-
 		command_tokens = tokenize_command(command);
 		i_mode = isatty(STDOUT_FILENO);
 		if (!i_mode && command_tokens[0] != NULL
