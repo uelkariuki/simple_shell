@@ -14,5 +14,5 @@ imple shell advance
 -------------------------
 | Projects | Description |
 | `exit_status.c` | invokes the exit status when user inputs `exit 98`|
-| `Wot_getline.c` | accepts strings from an `stdin` | 
+| `Wot_getline.c` | accepts strings from an `stdin` |
 
