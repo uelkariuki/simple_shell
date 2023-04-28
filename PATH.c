@@ -10,7 +10,7 @@
 char *path_func(char *cmd)
 {
 	struct stat path_buffer;
-	char *the_path = NULL, *the_path_dup = NULL;
+	char *the_path = NULL, *the_path_dup = NULL, *retu = NULL;
 	char *the_path_token = NULL, *the_file_path = NULL;
 
 	the_path = getenv("PATH");
@@ -29,8 +29,15 @@ char *path_func(char *cmd)
 			/* if file path exists*/
 			if (stat(the_file_path, &path_buffer) == 0)
 			{
+				retu = strdup(the_file_path);
+				if (retu == NULL)
+				{
+					perror("failure malloc");
+					exit(EXIT_FAILURE);
+				}
+				free(the_file_path);
 				free(the_path_dup);
-				return (the_file_path);
+				return (retu);
 			}
 			else /* if not exist*/
 			{
@@ -43,10 +50,15 @@ char *path_func(char *cmd)
 		/* if it is a cmd that already exists*/
 		if (stat(cmd, &path_buffer) == 0)
 		{
-			return (cmd);
+			retu = strdup(cmd);
+			if (retu == NULL)
+			{
+				perror("malloc failed");
+				exit(EXIT_FAILURE);
+			}
+			free(the_path_dup);
+			return (retu);
 		}
-		free(the_path_dup);
 	}
-	/*otherwise if no path is there for cmd*/
-	return (NULL);
+	return (NULL); /*otherwise if no path is there for cmd*/
 }
