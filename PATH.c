@@ -18,9 +18,7 @@ char *path_func(char *cmd)
 	{
 		the_path_dup = strdup(the_path);
 		if (the_path_dup == NULL)
-		{
 			exit(EXIT_FAILURE);
-		}
 		the_path_token = custom_strtok(the_path_dup, ":");
 		while (the_path_token != NULL)
 		{
@@ -29,9 +27,7 @@ char *path_func(char *cmd)
 			{
 				retu = strdup(the_file_path);
 				if (retu == NULL)
-				{
 					exit(EXIT_FAILURE);
-				}
 				free(the_file_path);
 				free(the_path_dup);
 				return (retu);
@@ -47,9 +43,7 @@ char *path_func(char *cmd)
 		{
 			retu = strdup(cmd);
 			if (retu == NULL)
-			{
 				exit(EXIT_FAILURE);
-			}
 			free(the_path_dup);
 			return (retu);
 		}

@@ -49,6 +49,5 @@ void exec(char **argv, char *program_name)
 			}
 		}
 		free(true_cmd);
-
 	}
 }
