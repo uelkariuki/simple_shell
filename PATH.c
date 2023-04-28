@@ -42,8 +42,6 @@ char *path_func(char *cmd)
 		if (stat(cmd, &path_buffer) == 0) /* if it is a cmd that already exists*/
 		{
 			retu = strdup(cmd);
-			if (retu == NULL)
-				exit(EXIT_FAILURE);
 			free(the_path_dup);
 			return (retu);
 		}
