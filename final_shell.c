@@ -15,7 +15,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 	char *command = NULL;
 	char **command_tokens;
 	size_t buffer_size = 0;
-	int i_mode = 1, status;
+	int i_mode = 1, status, line_nbr = 1;
 	char *program_name = av[0];
 
 	while (1)
@@ -41,17 +41,18 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		}
 		if (strncmp(command, "exit ", 5) == 0)
 		{
-			if (command[5] == '-')
+			status = atoi(command + 5);
+
+			if ( status >= 0)
 			{
-				status = atoi(command + 5);
 				free(command);
 				exit(status);
 			}
 			else
 			{
-				status = atoi(command + 4);
+				fprintf(stderr, "%s: %d: Illegal number: %d\n", program_name, line_nbr, status);
 				free(command);
-				exit(status);
+				exit(2);
 			}
 		}
 		command_tokens = tokenize_command(command);
