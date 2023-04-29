@@ -34,12 +34,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		{
 			continue;
 		}
-		if (strcmp(command, "exit\n") == 0)
-		{
-			free(command);
-			exit(EXIT_SUCCESS);
-		}
-		if (strcmp(command, "exit 98\n") == 0)
+		if (strcmp(command, "exit\n") == 0 || strcmp(command, "exit 0\n") == 0)
 		{
 			free(command);
 			exit(EXIT_SUCCESS);
