@@ -45,6 +45,11 @@ char *path_func(char *cmd)
 			free(the_path_dup);
 			return (retu);
 		}
+		else
+		{
+			return (NULL);
+
+		}
 	}
 	free(the_path_dup);
 	return (NULL); /*otherwise if no path is there for cmd*/
