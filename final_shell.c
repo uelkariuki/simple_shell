@@ -33,7 +33,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		if (strcmp(command, "exit\n") == 0)
 		{
 			free(command);
-			exit(0);
+			exit(EXIT_SUCCESS);
 		}
 		command_tokens = tokenize_command(command);
 		i_mode = isatty(STDOUT_FILENO);

@@ -11,7 +11,7 @@
 void exec(char **argv, char *program_name)
 {
 	char *cmd = NULL, *true_cmd = NULL;
-	int line_num = 1, cs; /*current_state;status = WEXITSTATUS(cs);*/
+	int line_num = 1, cs,/*current_state;*/status = WEXITSTATUS(cs);
 	pid_t pid;
 
 	if (argv)
@@ -51,17 +51,17 @@ void exec(char **argv, char *program_name)
 			/*status = WEXITSTATUS(cs);*/
 		}
 		free(true_cmd);
-		/*if (status == 0)
+		if (status == 0)
 		{
 			exit(EXIT_SUCCESS);
 		}
 		else
 		{
 			exit(EXIT_FAILURE);
-		}*/
+		}
 	}
-	/*else
+	else
 	{
 		exit(EXIT_FAILURE);
-	}*/
+	}
 }
