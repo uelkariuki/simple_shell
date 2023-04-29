@@ -6,12 +6,11 @@
  * @program_name: the name of the program
  */
 
-void exec(char **command_tokens, char *program_name)
+void exec(char **argv, char *program_name)
 {
 	char *cmd = NULL, *true_cmd = NULL;
 	int line_num = 1, cs; /*current_state;*/ 
 	pid_t pid;
-	char **argv = NULL;
 
 	if (argv)
 	{
@@ -44,15 +43,15 @@ void exec(char **command_tokens, char *program_name)
 		}
 		else
 		{  /* parent process*/
-			waitpid(pid, &cs, 0);
-			if (WIFEXITED(cs))
+			if (waitpid(pid, &cs, 0) == -1)
 			{
-				/*perror("waitpid");*/
+				perror("waitpid");
 				exit(WEXITSTATUS(cs));
 			}
 			else if (WIFSIGNALED(cs))
 			{
-				fprintf(stderr, "%s: %d: %s: terminated by signal %d\n", program_name, line_num, command_tokens[0], WTERMSIG(cs));
+				WEXITSTATUS(cs);
+				
 			}
 		}
 	}
