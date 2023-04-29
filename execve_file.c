@@ -11,7 +11,7 @@
 void exec(char **argv, char *program_name)
 {
 	char *cmd = NULL, *true_cmd = NULL;
-	int line_num = 1, status_exit, cs;/*current_state;*/
+	int line_num = 1, cs;/*current_state;*/
 	pid_t pid;
 
 	if (argv)
@@ -48,7 +48,7 @@ void exec(char **argv, char *program_name)
 			}
 			if (WIFEXITED(cs))
 			{
-				status_exit = WEXITSTATUS(cs);
+				WEXITSTATUS(cs);
 			}
 		}
 	}
