@@ -9,7 +9,7 @@
 void exec(char **argv, char *program_name)
 {
 	char *cmd = NULL, *true_cmd = NULL;
-	int line_num = 1, cs;/*current_state;*/
+	int line_num = 1, cs, /*current_state;*/ i_mode = isatty(STDOUT_FILENO);
 	pid_t pid;
 
 	if (argv)
@@ -22,15 +22,46 @@ void exec(char **argv, char *program_name)
 		}
 		else if (strcmp(cmd, "cd") == 0)
                 {
-                        if (argv[1] == NULL)
+                        if (cmd == NULL)
                         {
-                                change_directory(getenv("HOME"));
+                                chdir(getenv("HOME"));
                         }
-                        else
+                        else if (strcmp(cmd, "-") == 0)
                         {
-                                change_directory(argv[1]);
-                        }
-                        return;
+				char *oldpwd = getenv("OLDPWD");
+				if (oldpwd == NULL)
+				{
+					fprintf(stderr, "cd:OLDPWD not set\n");
+					return;
+				}
+				chdir(oldpwd);
+			}
+			else
+			{
+				if (chdir(cmd) != 0)
+				{
+					perror("cd");
+				}
+				else
+				{
+					char cwd[PATH_MAX];
+
+					if (getcwd(cwd, sizeof(cwd)) != NULL)
+					{
+						setenv("OLDPWD", getenv("PWD"),1);
+						setenv("PWD",cwd,1);
+						if (i_mode)
+						{
+							printf("%s\n", cwd);
+						}
+					}
+					else
+					{
+						perror("getcwd");
+					}
+				}
+			}
+			return;
                 }
 		true_cmd = path_func(cmd);
 		if (true_cmd == NULL)
