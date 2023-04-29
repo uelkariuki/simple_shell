@@ -72,7 +72,6 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 						&& access(command_tokens[0], F_OK) == -1)
 				{
 					exec(command_tokens, program_name);
-					free(command_tokens);
 				}
 				else if (command_tokens[0] != NULL)
 				{
