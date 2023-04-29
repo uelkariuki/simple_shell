@@ -11,7 +11,7 @@
 void exec(char **argv, char *program_name)
 {
 	char *cmd = NULL, *true_cmd = NULL;
-	int line_num = 1, cs; /*current_state;*/
+	int line_num = 1, cs; /*current_state;status = WEXITSTATUS(cs);*/
 	pid_t pid;
 
 	if (argv)
@@ -26,19 +26,19 @@ void exec(char **argv, char *program_name)
 		if (true_cmd == NULL)
 		{
 			fprintf(stderr, "%s: %d: %s: not found\n", program_name, line_num, argv[0]);
-			goto cleanup;
+			exit(1);
 		}
 		pid = fork();
 		if (pid == -1) /* child process failure*/
 		{
 			perror("There is an error in pid");
-			exit(EXIT_FAILURE);
+			exit(1);
 		}
 		else if (pid == 0)
 		{
 			if (execve(true_cmd, argv, environ) == -1)
 			{
-				exit(EXIT_FAILURE);
+				exit(1);
 			}
 		}
 		else
@@ -46,19 +46,22 @@ void exec(char **argv, char *program_name)
 			if (waitpid(pid, &cs, 0) == -1)
 			{
 				perror("waitpid");
-				exit(EXIT_FAILURE);
+				exit(1);
 			}
+			/*status = WEXITSTATUS(cs);*/
 		}
-	}
-cleanup:
-	cleanup_function(true_cmd);
-}
-
-void cleanup_function(char *true_cmd)
-{
-	if(true_cmd != NULL )
-	{
 		free(true_cmd);
-		true_cmd = NULL;
+		/*if (status == 0)
+		{
+			exit(EXIT_SUCCESS);
+		}
+		else
+		{
+			exit(EXIT_FAILURE);
+		}*/
 	}
+	/*else
+	{
+		exit(EXIT_FAILURE);
+	}*/
 }

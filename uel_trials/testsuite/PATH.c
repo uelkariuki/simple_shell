@@ -19,21 +19,20 @@ char *path_func(char *cmd)
 		the_path_dup = strdup(the_path);
 		if (the_path_dup == NULL)
 		{
-			perror("malloc failed at path func");
 			exit(EXIT_FAILURE);
 		}
 		the_path_token = custom_strtok(the_path_dup, ":");
 		while (the_path_token != NULL)
 		{
 			the_file_path = path_builder(the_path_token, cmd);
-			/* if file path exists*/
-			if (stat(the_file_path, &path_buffer) == 0)
+			if (stat(the_file_path, &path_buffer) == 0) /* if file path exists*/
 			{
 				retu = strdup(the_file_path);
 				if (retu == NULL)
 				{
-					perror("failure malloc");
-					exit(EXIT_FAILURE);
+					free(the_path_dup);
+					free(the_file_path);
+					return (NULL);
 				}
 				free(the_file_path);
 				free(the_path_dup);
@@ -43,22 +42,16 @@ char *path_func(char *cmd)
 			{
 				free(the_file_path);
 				the_file_path = NULL;
-				/* find the next dir*/
-				the_path_token = custom_strtok(NULL, ":");
+				the_path_token = custom_strtok(NULL, ":"); /* find the next dir*/
 			}
 		}
-		/* if it is a cmd that already exists*/
-		if (stat(cmd, &path_buffer) == 0)
+		if (stat(cmd, &path_buffer) == 0) /* if it is a cmd that already exists*/
 		{
 			retu = strdup(cmd);
-			if (retu == NULL)
-			{
-				perror("malloc failed");
-				exit(EXIT_FAILURE);
-			}
 			free(the_path_dup);
 			return (retu);
 		}
 	}
+	free(the_path_dup);
 	return (NULL); /*otherwise if no path is there for cmd*/
 }

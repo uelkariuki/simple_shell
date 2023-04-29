@@ -28,12 +28,16 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		if (getline(&command, &buffer_size, stdin) == -1)
 		{
 			free(command);
-			exit(EXIT_FAILURE);
+			exit(EXIT_SUCCESS);
+		}
+		if (command[0] == '#')
+		{
+			continue;
 		}
 		if (strcmp(command, "exit\n") == 0)
 		{
 			free(command);
-			exit(0);
+			exit(EXIT_SUCCESS);
 		}
 		if (strcmp(command, "exit 98\n") == 0)
 		{
@@ -51,8 +55,9 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		else if (command_tokens[0] != NULL)
 		{
 			exec(command_tokens, program_name);
-			free(command_tokens);
+			/*free(command_tokens);*/
 		}
+		free(command_tokens);
 	}
 	return (0);
 

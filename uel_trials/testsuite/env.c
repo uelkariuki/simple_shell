@@ -16,5 +16,7 @@ void env_func(void)
 		env++;
 
 	}
+	exit(0);
+
 
 }
