@@ -68,7 +68,6 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 			exec(command_tokens, program_name);
 			/*free(command_tokens);*/
 		}
-<<<<<<< HEAD
 		else if (strcmp(command_tokens[0], "cd") == 0)
 		{
 			if (command_tokens[1] == NULL)
@@ -109,10 +108,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 			}
 			continue;
 		}
-
-=======
 		free(command_tokens);
->>>>>>> 8a4c95a76a21bc33c786373109e8d83126ada94b
 	}
 	return (0);
 }
