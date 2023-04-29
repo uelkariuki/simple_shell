@@ -105,7 +105,7 @@ char **tokenize_command(char *command)
 	char *token;
 	int q = 0;
 
-	command_tokens = malloc(sizeof(char *) * COMMAND_MAX_LENGTH);
+	command_tokens = malloc(sizeof(char *) * COMMAND_MAX_LENGTH + 1);
 
 	if (command_tokens == NULL)
 	{
