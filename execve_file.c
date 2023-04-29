@@ -21,6 +21,35 @@ void exec(char **argv, char *program_name)
 			env_func();
 			return;
 		}
+
+		else if (strcmp(cmd, "setenv") == 0)
+		{
+			if (argv[1] == NULL || argv[2] == NULL || argv[3] != NULL)
+			{
+				fprintf(stderr, "%s: %d: usage: setenv VARIABLE VALUE\n", program_name, line_num);
+				return;
+			}
+			if (setenv(argv[1], argv[2], 1) == -1)
+			{
+				perror("error in setenv");
+				return;
+			}
+			return;
+		}
+		else if (strcmp(cmd, "unsetenv") == 0)
+		{
+			if (argv[1] == NULL || argv[2] != NULL)
+			{
+				fprintf(stderr, "%s: %d: usage: unsetenv VARIABLE\n", program_name, line_num);
+				return;
+			}
+			if (unsetenv(argv[1]) == -1)
+			{
+				perror("There is an error in unsetenv");
+				return;
+			}
+			return;
+		}
 		true_cmd = path_func(cmd);
 		if (true_cmd == NULL)
 		{
