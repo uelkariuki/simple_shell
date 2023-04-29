@@ -132,7 +132,7 @@ char **tokenize_command(char *command)
 		perror("malloc failed from tokenize_command");
 		exit(EXIT_FAILURE);
 	}
-	token = custom_strtok(command, " \n");
+	token = custom_strtok(command, "\n");
 
 	while (token != NULL)
 	{
@@ -141,7 +141,7 @@ char **tokenize_command(char *command)
 			break;
 		}
 		command_tokens[q++] = token;
-		token = custom_strtok(NULL, " \n");
+		token = custom_strtok(NULL, "\n");
 	}
 	command_tokens[q] = NULL;
 
