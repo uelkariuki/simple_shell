@@ -41,9 +41,18 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		}
 		if (strncmp(command, "exit ", 5) == 0)
 		{
-			status = atoi(command + 5);
-			free(command);
-			exit(status);
+			if (command[5] == '-')
+			{
+				status = atoi(command + 5);
+				free(command);
+				exit(status);
+			}
+			else
+			{
+				status = atoi(command + 4);
+				free(command);
+				exit(status);
+			}
 		}
 		command_tokens = tokenize_command(command);
 		i_mode = isatty(STDOUT_FILENO);
