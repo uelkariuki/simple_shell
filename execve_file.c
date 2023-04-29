@@ -9,8 +9,9 @@
 void exec(char **argv, char *program_name)
 {
 	char *cmd = NULL, *true_cmd = NULL;
-	int line_num = 1, cs; /*current_state;*/ 
+	int line_num = 1, a, cs, the_pipefd[2]; /*current_state;*/ 
 	pid_t pid;
+	char buffer [1024];
 
 	if (argv)
 	{
@@ -26,6 +27,8 @@ void exec(char **argv, char *program_name)
 			fprintf(stderr, "%s: %d: %s: not found\n", program_name, line_num, argv[0]);
 			exit(2);
 		}
+		pipe(the_pipefd);
+
 		pid = fork();
 		if (pid == -1) /* child process failure*/
 		{
@@ -34,6 +37,9 @@ void exec(char **argv, char *program_name)
 		}
 		else if (pid == 0)
 		{
+			close(the_pipefd[0]);
+			dup2(the_pipefd[1], STDOUT_FILENO);
+			close(the_pipefd[1]);
 			if (execve(true_cmd, argv, environ) == -1)
 			{
 				fflush(stdout);
@@ -43,6 +49,12 @@ void exec(char **argv, char *program_name)
 		}
 		else
 		{  /* parent process*/
+			close(the_pipefd[1]);
+			while((a = read(the_pipefd[0], buffer, sizeof(buffer))) > 0)
+			{
+				write(STDOUT_FILENO, buffer, a);
+
+			}
 			if (waitpid(pid, &cs, 0) == -1)
 			{
 				perror("waitpid");
