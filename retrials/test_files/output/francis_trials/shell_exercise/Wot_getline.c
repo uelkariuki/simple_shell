@@ -4,7 +4,6 @@
 #include "main.h"
 
 #define BUF_SIZE 1024
-#define NUMLINE 234
 
 /**
  * without_getline - accepts a str from input stream as input
