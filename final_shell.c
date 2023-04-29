@@ -50,7 +50,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 			}
 			else
 			{
-				fprintf(stderr, "%s: %d: Illegal number: %d\n", program_name, line_nbr, status);
+				fprintf(stderr, "%s: %d: exit: Illegal number: %d\n", program_name, line_nbr, status);
 				free(command);
 				exit(2);
 			}
