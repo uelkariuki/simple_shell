@@ -86,6 +86,10 @@ char **tokenize_command(char *command)
 
 	while (token != NULL)
 	{
+		if (token[0] == '#')
+		{
+			break;
+		}
 		command_tokens[q++] = token;
 		token = custom_strtok(NULL, " \n");
 	}
