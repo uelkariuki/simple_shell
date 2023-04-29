@@ -53,9 +53,49 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 			exec(command_tokens, program_name);
 			free(command_tokens);
 		}
+		else if (strcmp(command_tokens[0], "cd") == 0)
+		{
+			if (command_tokens[1] == NULL)
+			{
+				chdir(getenv("HOME"));
+			}
+			else if (strcmp(command_tokens[1], "-") == 0)
+			{
+				char *prev_dir = getenv("OLDPWD");
+				if (prev_dir == NULL)
+				{
+					fprintf(stderr, "cd: OLDPWD not set\n");
+				}
+				else
+				{
+					if (chdir(prev_dir) != 0)
+					{
+						perror("cd");
+					}
+					else
+					{
+						printf("%s\n", prev_dir);
+					}
+				}
+			}
+			else
+			{
+				if (chdir(command_tokens[1]) != 0)
+				{
+					perror("cd");
+				}
+				else
+				{
+					setenv("OLDPWD", getenv("PWD"), 1);
+					setenv("PWD", getcwd(NULL, 0), 1);
+					printf("%s\n", getenv("PWD"));
+				}
+			}
+			continue;
+		}
+
 	}
 	return (0);
-
 }
 
 /**
