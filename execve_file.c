@@ -11,7 +11,7 @@
 void exec(char **argv, char *program_name)
 {
 	char *cmd = NULL, *true_cmd = NULL;
-	int line_num = 1, cs;/*current_state;*/
+	int line_num = 1, status_exit, cs;/*current_state;*/
 	pid_t pid;
 
 	if (argv)
@@ -37,7 +37,7 @@ void exec(char **argv, char *program_name)
 		else if (pid == 0)
 		{
 			if (execve(true_cmd, argv, environ) == -1)
-				exit(1);
+				fflush(stdout);
 		}
 		else
 		{  /* parent process*/
@@ -45,6 +45,11 @@ void exec(char **argv, char *program_name)
 			{
 				perror("waitpid");
 				exit(1);
+			}
+			if (WIFEXITED(cs))
+			{
+				status_exit = WEXITSTATUS(cs);
+				printf("child process exited with status %d\n", status_exit);
 			}
 		}
 	}
