@@ -15,7 +15,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 	char *command = NULL;
 	char **command_tokens;
 	size_t buffer_size = 0;
-	int i_mode = 1;
+	int i_mode = 1, the_status;
 	char *program_name = av[0];
 
 	while (1)
@@ -42,7 +42,13 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		if (strcmp(command, "exit 98\n") == 0)
 		{
 			free(command);
-			exit(98);
+			exit(EXIT_SUCCESS);
+		}
+		if (strncmp(command, "exit ", 5) == 0)
+		{
+			the_status = atoi(command + 5);
+			free(command);
+			exit(the_status);
 		}
 		command_tokens = tokenize_command(command);
 		i_mode = isatty(STDOUT_FILENO);
