@@ -12,7 +12,7 @@
 
 int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 {
-	char *command = NULL;
+	char *command = NULL, *sem_ptr, *cmd_ptr;
 	char **command_tokens;
 	size_t buffer_size = 0;
 	int i_mode = 1, status, line_nbr = 1;
@@ -56,62 +56,42 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 				exit(2);
 			}
 		}
-		command_tokens = tokenize_command(command);
-		i_mode = isatty(STDOUT_FILENO);
-		if (!i_mode && command_tokens[0] != NULL
-				&& access(command_tokens[0], F_OK) == -1)
+		cmd_ptr = command;
+		while (*cmd_ptr != '\0')
 		{
-			exec(command_tokens, program_name);
-			free(command_tokens);
-		}
-		else if (command_tokens[0] != NULL)
-		{
-			exec(command_tokens, program_name);
-			/*free(command_tokens);*/
-		}
-		/*else if (strcmp(command_tokens[0], "cd") == 0)
-		{
-			if (command_tokens[1] == NULL)
+			sem_ptr = strchr(cmd_ptr, ';');
+			if (sem_ptr != NULL)
 			{
-				chdir(getenv("HOME"));
+				*sem_ptr = '\0';
 			}
-			else if (strcmp(command_tokens[1], "-") == 0)
+			command_tokens = tokenize_command(command);
+			if (command_tokens[0] != NULL)
 			{
-				prev_dir = getenv("OLDPWD");
-				if (prev_dir == NULL)
+				i_mode = isatty(STDOUT_FILENO);
+				if (!i_mode && command_tokens[0] != NULL
+						&& access(command_tokens[0], F_OK) == -1)
 				{
-					fprintf(stderr, "cd: OLDPWD not set\n");
+					exec(command_tokens, program_name);
+					free(command_tokens);
 				}
-				else
+				else if (command_tokens[0] != NULL)
 				{
-					if (chdir(prev_dir) != 0)
-					{
-						perror("cd");
-					}
-					else
-					{
-						printf("%s\n", prev_dir);
-					}
+					exec(command_tokens, program_name);
+					/*free(command_tokens);*/
 				}
+			}
+			free(command_tokens);
+			if(sem_ptr != NULL)
+			{
+				cmd_ptr = sem_ptr + 1;
 			}
 			else
 			{
-				if (chdir(command_tokens[1]) != 0)
-				{
-					perror("cd");
-				}
-				else
-				{
-					setenv("OLDPWD", getenv("PWD"), 1);
-					setenv("PWD", getcwd(NULL, 0), 1);
-					printf("%s\n", getenv("PWD"));
-				}
+				break;
 			}
-			continue;*/
-		free(command_tokens);
-		/*token = custom_strtok(NULL, ";");*/
+		}
 	}
-	return(0);
+
 }
 /**
  * tokenize_command - function to tokenize commands

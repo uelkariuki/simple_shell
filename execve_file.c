@@ -5,7 +5,7 @@
  * @argv: an array containing the program command line arguments
  * @program_name: the name of the program
  */
-#define MAX_LENGTH 1024
+
 void exec(char **argv, char *program_name)
 {
 	char *cmd = NULL, *true_cmd = NULL;
@@ -20,49 +20,6 @@ void exec(char **argv, char *program_name)
 			env_func();
 			return;
 		}
-		/*else if (strcmp(cmd, "cd") == 0)
-                {
-                        if (cmd == NULL)
-                        {
-                                chdir(getenv("HOME"));
-                        }
-                        else if (strcmp(cmd, "-") == 0)
-                        {
-				char *oldpwd = getenv("OLDPWD");
-				if (oldpwd == NULL)
-				{
-					fprintf(stderr, "cd:OLDPWD not set\n");
-					return;
-				}
-				chdir(oldpwd);
-			}
-			else
-			{
-				if (chdir(cmd) != 0)
-				{
-					perror("cd");
-				}
-				else
-				{
-					char cwd[PATH_MAX];
-
-					if (getcwd(cwd, sizeof(cwd)) != NULL)
-					{
-						setenv("OLDPWD", getenv("PWD"),1);
-						setenv("PWD",cwd,1);
-						if (i_mode)
-						{
-							printf("%s\n", cwd);
-						}
-					}
-					else
-					{
-						perror("getcwd");
-					}
-				}
-			}
-			return;
-                }*/
 		true_cmd = path_func(cmd);
 		if (true_cmd == NULL)
 		{
@@ -95,50 +52,3 @@ void exec(char **argv, char *program_name)
 	}
 	free(true_cmd);
 }
-/* void change_directory(char *path)
-{
-	char cwd[MAX_LENGTH];
-	if(path == NULL)
-	{
-		if (chdir(getenv("HOME")) != 0)
-		{
-			perror("cd");
-		}
-	}
-	else if (strcmp(path, "-") == 0)
-	{
-		char *prev = getenv("OLDPWD");
-		if (prev == NULL)
-		{
-			fprintf(stderr, "cd: OLDPWD not found");
-		}
-		else
-		{
-			if (chdir(prev) != 0)
-			{
-				perror("cd");
-			}
-			printf("%s\n", prev);
-		}
-	}
-	else
-	{
-		if (chdir(path) != 0)
-		{
-			perror("cd");
-		}
-		else
-		{
-			if (getcwd(cwd, sizeof(cwd)) != NULL)
-			{
-				printf("%s\n", cwd);
-				setenv("OLDPWD", getenv("PWD"), 1);
-				setenv("PWD", cwd, 1);
-			}
-			else
-			{
-				perror("getcwd");
-			}
-		}
-	}
-}*/
