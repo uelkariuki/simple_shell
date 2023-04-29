@@ -49,7 +49,6 @@ void exec(char **argv, char *program_name)
 			if (WIFEXITED(cs))
 			{
 				status_exit = WEXITSTATUS(cs);
-				printf("child process exited with status %d\n", status_exit);
 			}
 		}
 	}
