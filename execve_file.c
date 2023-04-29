@@ -6,11 +6,12 @@
  * @program_name: the name of the program
  */
 
-void exec(char **argv, char *program_name)
+void exec(char **command_tokens, char *program_name)
 {
 	char *cmd = NULL, *true_cmd = NULL;
 	int line_num = 1, cs; /*current_state;*/ 
 	pid_t pid;
+	char **argv = NULL;
 
 	if (argv)
 	{
@@ -24,29 +25,34 @@ void exec(char **argv, char *program_name)
 		if (true_cmd == NULL)
 		{
 			fprintf(stderr, "%s: %d: %s: not found\n", program_name, line_num, argv[0]);
-			exit(1);
+			exit(2);
 		}
 		pid = fork();
 		if (pid == -1) /* child process failure*/
 		{
 			perror("There is an error in pid");
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 		else if (pid == 0)
 		{
 			if (execve(true_cmd, argv, environ) == -1)
+			{
 				fflush(stdout);
+				exit(2);
+			}
+
 		}
 		else
 		{  /* parent process*/
-			if (waitpid(pid, &cs, 0) == -1)
-			{
-				perror("waitpid");
-				exit(1);
-			}
+			waitpid(pid, &cs, 0);
 			if (WIFEXITED(cs))
 			{
-				WEXITSTATUS(cs);
+				/*perror("waitpid");*/
+				exit(WEXITSTATUS(cs));
+			}
+			else if (WIFSIGNALED(cs))
+			{
+				fprintf(stderr, "%s: %d: %s: terminated by signal %d\n", program_name, line_num, command_tokens[0], WTERMSIG(cs));
 			}
 		}
 	}
