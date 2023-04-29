@@ -31,7 +31,9 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 			exit(EXIT_SUCCESS);
 		}
 		if (command[0] == '#')
+		{
 			continue;
+		}
 		if (strcmp(command, "exit\n") == 0)
 		{
 			free(command);
