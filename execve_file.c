@@ -9,7 +9,7 @@
 void exec(char **argv, char *program_name)
 {
 	char *cmd = NULL, *true_cmd = NULL;
-	int line_num = 1, cs, /*current_state;*/ i_mode = isatty(STDOUT_FILENO);
+	int line_num = 1, cs; /*current_state;*/ 
 	pid_t pid;
 
 	if (argv)
@@ -20,7 +20,7 @@ void exec(char **argv, char *program_name)
 			env_func();
 			return;
 		}
-		else if (strcmp(cmd, "cd") == 0)
+		/*else if (strcmp(cmd, "cd") == 0)
                 {
                         if (cmd == NULL)
                         {
@@ -62,7 +62,7 @@ void exec(char **argv, char *program_name)
 				}
 			}
 			return;
-                }
+                }*/
 		true_cmd = path_func(cmd);
 		if (true_cmd == NULL)
 		{
@@ -95,7 +95,7 @@ void exec(char **argv, char *program_name)
 	}
 	free(true_cmd);
 }
-void change_directory(char *path)
+/* void change_directory(char *path)
 {
 	char cwd[MAX_LENGTH];
 	if(path == NULL)
@@ -141,4 +141,4 @@ void change_directory(char *path)
 			}
 		}
 	}
-}
+}*/

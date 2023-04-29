@@ -69,7 +69,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 			exec(command_tokens, program_name);
 			/*free(command_tokens);*/
 		}
-		else if (strcmp(command_tokens[0], "cd") == 0)
+		/*else if (strcmp(command_tokens[0], "cd") == 0)
 		{
 			if (command_tokens[1] == NULL)
 			{
@@ -77,7 +77,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 			}
 			else if (strcmp(command_tokens[1], "-") == 0)
 			{
-				char *prev_dir = getenv("OLDPWD");
+				prev_dir = getenv("OLDPWD");
 				if (prev_dir == NULL)
 				{
 					fprintf(stderr, "cd: OLDPWD not set\n");
@@ -107,13 +107,12 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 					printf("%s\n", getenv("PWD"));
 				}
 			}
-			continue;
-		}
+			continue;*/
 		free(command_tokens);
+		/*token = custom_strtok(NULL, ";");*/
 	}
-	return (0);
+	return(0);
 }
-
 /**
  * tokenize_command - function to tokenize commands
  * @command: the command to be tokenized
@@ -133,7 +132,7 @@ char **tokenize_command(char *command)
 		perror("malloc failed from tokenize_command");
 		exit(EXIT_FAILURE);
 	}
-	token = custom_strtok(command, "\n");
+	token = custom_strtok(command, " \n");
 
 	while (token != NULL)
 	{
@@ -142,7 +141,7 @@ char **tokenize_command(char *command)
 			break;
 		}
 		command_tokens[q++] = token;
-		token = custom_strtok(NULL, "\n");
+		token = custom_strtok(NULL, " \n");
 	}
 	command_tokens[q] = NULL;
 

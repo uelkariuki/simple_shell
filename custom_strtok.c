@@ -33,6 +33,15 @@ char *custom_strtok(char *string, const char *delimiter)
 	{
 		return (NULL);
 	}
+
+	/* here a check to see if the current character is ; */
+	if (*string == ';')
+	{
+		*the_final_token++ = *string++;
+		*the_final_token = '\0';
+		return (the_final_token - 1);
+	}
+
 	/* find the end of the token*/
 	the_final_token = string + strcspn(string, delimiter);
 	if (*the_final_token != '\0')
