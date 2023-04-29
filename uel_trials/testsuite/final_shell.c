@@ -1,5 +1,7 @@
 #include "main.h"
 
+#define COMMAND_MAX_LENGTH 1024
+
 /**
  * main - main shell program
  * @ac: number of command line arguments
@@ -21,8 +23,8 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		i_mode = isatty(STDOUT_FILENO);
 		if (i_mode)
 		{
-			/*write(STDOUT_FILENO, "", 1);*/
-			printf("$ ");
+			write(STDOUT_FILENO, "", 1);
+			fflush(stdout);
 		}
 		if (getline(&command, &buffer_size, stdin) == -1)
 		{
@@ -32,7 +34,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		if (strcmp(command, "exit\n") == 0)
 		{
 			free(command);
-			exit(EXIT_FAILURE);
+			exit(0);
 		}
 		command_tokens = tokenize_command(command);
 		i_mode = isatty(STDOUT_FILENO);
@@ -44,8 +46,8 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		}
 		else if (command_tokens[0] != NULL)
 		{
-			exec(command_tokens, program_name);
-			free(command_tokens);
+		exec(command_tokens, program_name);
+		free(command_tokens);
 		}
 	}
 	return (0);
@@ -62,9 +64,16 @@ char **tokenize_command(char *command)
 {
 	char **command_tokens;
 	char *token;
-	int q = 0;
+	int q = 0, tokn_count = 0, w;
 
-	command_tokens = malloc(sizeof(char *) * COMMAND_MAX_LENGTH);
+	for (w = 0; command[w]; w++)
+	{
+		if (command[w] == ' ' || command[w] == '\n')
+		{
+			tokn_count++;
+		}
+	}
+	command_tokens = malloc(sizeof(char *) * (tokn_count + 1));
 
 	if (command_tokens == NULL)
 	{
