@@ -11,12 +11,9 @@ void exec(char **argv, char *program_name)
 	char *cmd = NULL, *true_cmd = NULL;
 	int line_num = 1, cs;/*current_state;*/
 	pid_t pid;
-	int exit_status = 0, status;
 
 	if (argv)
 	{
-		
-		/*special characters*/
 		cmd = argv[0];
 		if (strcmp(cmd, "env") == 0)
 		{
@@ -35,37 +32,6 @@ void exec(char **argv, char *program_name)
                         }
                         return;
                 }
-		else if (strcmp(cmd, "echo") == 0)
-		{
-			if (strcmp(argv[1], "$?") == 0)
-			{
-				printf("%d\n", exit_status);
-				return;
-			}
-			else if (strcmp(argv[1], "$$") == 0)
-			{
-				printf("%d\n", getpid());
-				return;
-			}
-		}
-		/*alias*/
-		/*else if (strcmp(cmd, "alias") == 0)
-		{
-			execute_alias(argv);
-			if (strcmp(argv[1], "ls") == 0 || strcmp(argv[1], "ls -p") == 0)
-			{
-				cmd = argv[1];
-			}
-			else
-			{
-				cmd = get_alias(argv[0]);
-			}
-		}
-		else
-		{
-			cmd = get_alias(argv[0]);
-		}*/
-		
 		true_cmd = path_func(cmd);
 		if (true_cmd == NULL)
 		{
@@ -92,15 +58,8 @@ void exec(char **argv, char *program_name)
 			}
 			if (WIFEXITED(cs))
 			{
-				if (WEXITSTATUS(cs))
-				{
-					status = WEXITSTATUS(cs);
-				}
+				WEXITSTATUS(cs);
 			}
-		}
-		if (strcmp(argv[1], "&&") == 0 && status == 0)
-		{
-			exec(&argv[2], program_name);
 		}
 	}
 	free(true_cmd);
