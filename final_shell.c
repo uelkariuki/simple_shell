@@ -84,6 +84,10 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 					{
 						setenv("PWD", directory, 1);
 					}
+					else
+					{
+						perror("chdir function error");
+					}
 				}
 				else 
 				{
