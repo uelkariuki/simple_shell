@@ -1,4 +1,4 @@
-imple shell advance
+Simple shell advance
 ------------------------
 | Exercises |
 | ------- |
