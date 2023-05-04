@@ -12,7 +12,7 @@
 
 int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 {
-	char *command = NULL, *sem_ptr, *cmd_ptr;
+	char *command = NULL, *sem_ptr, *cmd_ptr, *directory;
 	char **command_tokens;
 	size_t buffer_size = 0;
 	int i_mode = 1, status, line_nbr = 1;
@@ -73,7 +73,19 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 				{
 					exec(command_tokens, program_name);
 				}
-				else if (command_tokens[0] != NULL)
+				else if (strcmp(command_tokens[0], "cd") == 0)
+				{
+					directory = command_tokens[1];
+					if (directory == NULL || strcmp(directory, "-") == 0)
+					{
+						directory = getenv("HOME");
+					}
+					if (directory != NULL && chdir(directory)== 0)
+					{
+						setenv("PWD", directory, 1);
+					}
+				}
+				else 
 				{
 					exec(command_tokens, program_name);
 					/*free(command_tokens);*/
@@ -89,7 +101,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 				break;
 			}
 		}
-	}
+	}		
 
 }
 /**

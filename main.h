@@ -35,6 +35,6 @@ char **tokenize_command(char *command);
 void env_func(void);
 char **strtok_cmd(char *command);
 int isatty(int fd);
-void change_directory(char *path);
+int cd_func(char *argv[]);
 
 #endif
