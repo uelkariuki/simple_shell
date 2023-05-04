@@ -86,7 +86,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 					}
 					else
 					{
-						perror("chdir function error");
+						fprintf(stderr, "%s: %d: cd: %s: No such file or directory\n", program_name, line_nbr, directory);
 					}
 				}
 				else 
@@ -139,6 +139,8 @@ char **tokenize_command(char *command)
 		token = custom_strtok(NULL, " \n");
 	}
 	command_tokens[q] = NULL;
+
+	free(token);
 
 	return (command_tokens);
 
